@@ -10,14 +10,14 @@ namespace TimedDictionary
         public ICollection<T> Keys => GetKeys();
 
         public ICollection<TValue> Values => GetValues();
-        private readonly Dictionary<T, LinkedNode<T,TValue>> _sourceDictionary = new();
         
-        private LinkedNode<T, TValue> _head = null;
-        private LinkedNode<T, TValue> _tail = null;
-
         public int Count => _sourceDictionary.Count;
 
         public bool IsReadOnly => throw new NotImplementedException();
+        private readonly Dictionary<T, LinkedNode<T, TValue>> _sourceDictionary = new();
+
+        private LinkedNode<T, TValue> _head = null;
+        private LinkedNode<T, TValue> _tail = null;
 
         public void Add(T key, TValue value)
         {
@@ -70,30 +70,6 @@ namespace TimedDictionary
                 yield return new KeyValuePair<T, TValue>(node.Key, node.Value);
                 node = node.Next;
             }
-        }
-
-        private List<T> GetKeys()
-        {
-            var keys = new List<T>();
-            var node = _head;
-            while (node != null)
-            {
-                keys.Add(node.Key);
-                node = node.Next;
-            }
-            return keys;
-        }
-
-        private List<TValue> GetValues()
-        {
-            var values = new List<TValue>();
-            var node = _head;
-            while (node != null)
-            {
-                values.Add(node.Value);
-                node = node.Next;
-            }
-            return values;
         }
 
         public bool Remove(T key)
@@ -154,6 +130,31 @@ namespace TimedDictionary
         IEnumerator IEnumerable.GetEnumerator()
         {
             return GetEnumerator();
+        }
+
+
+        private List<T> GetKeys()
+        {
+            var keys = new List<T>();
+            var node = _head;
+            while (node != null)
+            {
+                keys.Add(node.Key);
+                node = node.Next;
+            }
+            return keys;
+        }
+
+        private List<TValue> GetValues()
+        {
+            var values = new List<TValue>();
+            var node = _head;
+            while (node != null)
+            {
+                values.Add(node.Value);
+                node = node.Next;
+            }
+            return values;
         }
 
         private class LinkedNode<T, TValue>
